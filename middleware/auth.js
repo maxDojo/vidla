@@ -1,9 +1,10 @@
+// const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User } = require("../db/user");
+const { getUser } = require("../db/user");
 
 // Login Function
-module.exports = function(req, res, next) {
-  // check if customer has a jwt token
+module.exports = async function(req, res, next) {
+  // check if client has a jwt token
   const token = req.header("x-auth-token");
 
   // return 401 error if token does not exist
@@ -11,12 +12,11 @@ module.exports = function(req, res, next) {
 
   // verify the token
   try {
-    const user = jwt.verify(token, "iwasalittlepenguinzombie619");
-    req.user = user;
+    let user = await jwt.verify(token, "iwasalittlepenguinzombie619");
+    req.user = await getUser(user._id);
     next();
   } catch (error) {
     res.status(400).send("Invalid Authentication Token!");
   }
-
   // check if the email and password match in the databaese
 };

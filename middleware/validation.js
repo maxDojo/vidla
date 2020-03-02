@@ -15,11 +15,9 @@ module.exports.validateMovie = movie => {
       .min(3)
       .required(),
     plot: Joi.string().min(30),
-    rating: Joi.number()
-      .min(1)
-      .max(10),
     stock: Joi.number(),
-    genre: Joi.string()
+    genre: Joi.string(),
+    price: Joi.number()
   };
   return Joi.validate(movie, schema);
 };
@@ -36,7 +34,15 @@ module.exports.validateUser = user => {
       .min(8)
       .max(1024)
       .required(),
-    isGold: Joi.boolean()
+    isGold: Joi.boolean(),
+    isAdmin: Joi.boolean()
   };
   return Joi.validate(user, schema);
+};
+
+module.exports.validateRating = rating => {
+  rating: Joi.number()
+    .min(1)
+    .max(5)
+    .required();
 };

@@ -5,7 +5,7 @@ const { getUser, addUser, deleteUser, updateUser } = require("../db/user");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const response = await getUser();
   !response && res.status(500).send("Could not retrieve Users!");
   res.status(200).send(response);

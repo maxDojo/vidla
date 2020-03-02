@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const movieSchema = new mongoose.Schema({
   title: { type: String, required: true },
   plot: String,
-  rating: Number,
+  rating: { type: [Object] },
+  price: Number,
   stock: Number
 });
 

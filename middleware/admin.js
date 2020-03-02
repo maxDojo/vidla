@@ -5,3 +5,6 @@ module.exports = function(req, res, next) {
     next();
   }
 };
+
+// Checks an isAdmin variable in the database which defaults to false for customers
+// returns a 403(forbidden) response if the value is still false

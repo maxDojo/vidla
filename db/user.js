@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema({
   firstname: { type: String },
   lastname: { type: String },
   email: { type: String, required: true, unique: true },
-  phone: { type: Number },
+  phone: { type: String },
   password: { type: String, required: true },
-  isGold: Boolean
+  role: { type: String, default: "customer" },
+  isAdmin: { type: Boolean, default: false }
 });
 
 userSchema.methods.generateToken = function() {
@@ -39,6 +41,8 @@ function getUser(id = undefined) {
 
 async function addUser(data) {
   try {
+    let salt = await bcrypt.genSalt(10);
+    data.password = await bcrypt.hash(data.password, salt);
     let user = new User(data);
     await user.save();
     return user;
